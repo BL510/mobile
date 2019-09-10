@@ -2,7 +2,7 @@ import axios from 'axios'
 import JSONbig from 'json-bigint'
 // 创建一个instance实例，设置不同的baseURL
 const instance = axios.create({
-  timeout: 1000,
+  timeout: 5000,
   baseURL: 'http://ttapi.research.itcast.cn'
 })
 
