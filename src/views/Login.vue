@@ -21,6 +21,7 @@
 <script>
 import { login } from '@/api/user'
 export default {
+  name: 'Login',
   data () {
     return {
       user: {
@@ -33,10 +34,13 @@ export default {
     //   点击按钮，处理登录
     async handleLogin () {
       try {
-        const res = await login(this.user)
-        console.log(res)
+        const data = await login(this.user)
+        console.log(data)
+        // 存储登录的状态，跳转到首页
+        this.$router.push('/')
+        this.$toast.success('登录成功')
       } catch (err) {
-        console.log(err)
+        this.$toast.fail('登录失败')
       }
     }
   }
