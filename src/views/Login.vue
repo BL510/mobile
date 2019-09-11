@@ -7,13 +7,22 @@
      <!-- 输入框 -->
      <van-cell-group>
         <van-field
-        v-validate="required"
+        v-validate="'required | digits:11'"
         name="mobile"
         :error-message="errors.first('mobile')"
         clearable
-        v-model="user.mobile" left-icon="phone" placeholder="请输入手机号码" />
-        <van-field v-model="user.code" left-icon="lock" placeholder="请输入验证码">
-        <van-button slot="button" type="default" size="small">发送验证码</van-button>
+        v-model="user.mobile"
+        left-icon="phone"
+        placeholder="请输入手机号码" />
+        <van-field
+        v-validate="'required | digits:6'"
+        name="code"
+        :error-message="errors.first('code')"
+        clearable
+        v-model="user.code"
+        left-icon="lock"
+        placeholder="请输入验证码">
+        <van-button slot="button" type="default" size="small">获取验证码</van-button>
         </van-field>
      </van-cell-group>
      <!-- 登录按钮 -->
