@@ -10,7 +10,11 @@ import 'vant/lib/index.css'
 import './styles/index.less'
 
 Vue.use(Vant)
-Vue.use(VeeValidate)
+Vue.use(VeeValidate, {
+  // 文本框中触发验证的事件，默认是input
+  // 如果为空的话，文本框输入过程中不需要验证，需要调用validate方法验证
+  events: ''
+})
 // 配置中文
 Validator.localize('zhCN', zhCN)
 Vue.config.productionTip = false

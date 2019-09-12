@@ -66,12 +66,20 @@ export default {
     //   点击按钮，处理登录
     async handleLogin () {
       try {
-        const data = await login(this.user)
-        // 存储登录的状态(1.vuex 2.本地存储)，跳转到首页
-        this.$store.commit('setUser', data)
-        this.setUser(data)
-        this.$router.push('/')
-        this.$toast.success('登录成功')
+        // 表单验证
+        this.$validator.validate().then(async valid => {
+          // 验证失败
+          if (!valid) {
+            return
+          }
+          // 验证成功
+          const data = await login(this.user)
+          // 存储登录的状态
+          this.setUser(data)
+          // 跳转到首页
+          this.$router.push('/')
+          this.$toast.success('登录成功')
+        })
       } catch (err) {
         this.$toast.fail('登录失败')
       }

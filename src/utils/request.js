@@ -16,7 +16,6 @@ instance.defaults.transformResponse = [function (data) {
 }]
 // 请求拦截器
 instance.interceptors.request.use(function (config) {
-  console.log(config)
   return config
 }, function (error) {
   return Promise.reject(error)
