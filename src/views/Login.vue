@@ -67,19 +67,18 @@ export default {
     async handleLogin () {
       try {
         // 表单验证
-        this.$validator.validate().then(async valid => {
-          // 验证失败
-          if (!valid) {
-            return
-          }
-          // 验证成功
-          const data = await login(this.user)
-          // 存储登录的状态
-          this.setUser(data)
-          // 跳转到首页
-          this.$router.push('/')
-          this.$toast.success('登录成功')
-        })
+        const valid = await this.$validator.validate()
+        // 验证失败
+        if (!valid) {
+          return
+        }
+        // 验证成功
+        const data = await login(this.user)
+        // 存储登录的状态
+        this.setUser(data)
+        // 跳转到首页
+        this.$router.push('/')
+        this.$toast.success('登录成功')
       } catch (err) {
         this.$toast.fail('登录失败')
       }
