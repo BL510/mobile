@@ -16,6 +16,7 @@ instance.defaults.transformResponse = [function (data) {
 }]
 // 请求拦截器
 instance.interceptors.request.use(function (config) {
+  console.log(config)
   return config
 }, function (error) {
   return Promise.reject(error)
@@ -24,7 +25,7 @@ instance.interceptors.request.use(function (config) {
 instance.interceptors.response.use(function (response) {
   // 接口返回的数据都有data，在此处统一返回接口返回的data
   // 如果接口返回的数据中没有data，此时返回axios响应对象的data属性
-  return response.data.data | response.data
+  return response.data.data || response.data
 }, function (error) {
   return Promise.reject(error)
 })

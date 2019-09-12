@@ -7,7 +7,7 @@
      <!-- 输入框 -->
      <van-cell-group>
         <van-field
-        v-validate="'required | digits:11'"
+        v-validate="'required|digits:11'"
         name="mobile"
         :error-message="errors.first('mobile')"
         clearable
@@ -15,7 +15,7 @@
         left-icon="phone"
         placeholder="请输入手机号码" />
         <van-field
-        v-validate="'required | digits:6'"
+        v-validate="'required|digits:6'"
         name="code"
         :error-message="errors.first('code')"
         clearable
@@ -45,6 +45,22 @@ export default {
       }
     }
   },
+  created () {
+    // 配置VeeValidate自定义验证信息
+    const dict = {
+      custom: {
+        mobile: {
+          required: '请输入手机号码',
+          digits: '手机号码必须是11位的数字'
+        },
+        code: {
+          required: '请输入验证码',
+          digits: '验证码必须是6位的数字'
+        }
+      }
+    }
+    this.$validator.localize('custom', dict)
+  },
   methods: {
     ...mapMutations(['setUser']),
     //   点击按钮，处理登录
@@ -52,7 +68,7 @@ export default {
       try {
         const data = await login(this.user)
         // 存储登录的状态(1.vuex 2.本地存储)，跳转到首页
-        // this.$store.commit('setUser', data)
+        this.$store.commit('setUser', data)
         this.setUser(data)
         this.$router.push('/')
         this.$toast.success('登录成功')
@@ -62,6 +78,7 @@ export default {
     }
   }
 }
+
 </script>
 
 <style lang="less" scoped>
