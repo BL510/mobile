@@ -5,14 +5,18 @@
      fixed
      title="黑马头条" />
     <!-- 频道列表 -->
-    <van-tabs>
-      <van-tab v-for="index in 8" :title="'标签 ' + index " :key="index">
+    <van-tabs animated>
+      <!-- 遍历标签页，显示频道列表 -->
+      <van-tab
+       v-for="channel in channels"
+       :title="channel.name"
+       :key="channel.id">
         <!-- 文章列表，不同的标签页下有不同的列表 -->
         <van-list
           v-model="loading"
           :finished="finished"
           finished-text="没有更多了"
-          @load="onload"
+          @load="onLoad()"
           >
           <van-cell
           v-for="item in list"
@@ -26,16 +30,31 @@
 </template>
 
 <script>
+import { getDefaultOrUserChannels } from '@/api/channel'
 export default {
   name: 'Home',
   data () {
     return {
       list: [],
       loading: false,
-      finished: false
+      finished: false,
+      channels: []
     }
   },
+  created () {
+    // 加载频道列表
+    this.loadChannels()
+  },
   methods: {
+    // 加载频道列表
+    async loadChannels () {
+      try {
+        const data = await getDefaultOrUserChannels()
+        this.channels = data.channels
+      } catch (err) {
+        console.log(err)
+      }
+    },
     onload () {
       // 异步更新数据
       setTimeout(() => {
