@@ -5,7 +5,7 @@
      fixed
      title="黑马头条" />
     <!-- 频道列表 -->
-    <van-tabs animated>
+    <van-tabs animated v-model="activeIndex">
       <!-- 遍历标签页，显示频道列表 -->
       <van-tab
        v-for="channel in channels"
@@ -16,7 +16,7 @@
           v-model="loading"
           :finished="finished"
           finished-text="没有更多了"
-          @load="onLoad()"
+          @load="onLoad"
           >
           <van-cell
           v-for="item in list"
@@ -38,7 +38,10 @@ export default {
       list: [],
       loading: false,
       finished: false,
-      channels: []
+      channels: [],
+      // tab是组件中默认显示的tab项的索引
+      // 通过该index，可以找到当前的频道对象
+      activeIndex: 0
     }
   },
   created () {
@@ -55,7 +58,7 @@ export default {
         console.log(err)
       }
     },
-    onload () {
+    onLoad () {
       // 异步更新数据
       setTimeout(() => {
         for (let i = 0; i < 10; i++) {
