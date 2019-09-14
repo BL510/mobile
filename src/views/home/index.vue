@@ -1,27 +1,22 @@
 <template>
   <div>
     <!-- 导航头 -->
-    <van-nav-bar
-     fixed
-     title="黑马头条" />
+    <van-nav-bar fixed title="黑马头条" />
     <!-- 频道列表 -->
     <van-tabs animated v-model="activeIndex">
       <!-- 遍历标签页，显示频道列表 -->
-      <van-tab
-       v-for="channel in channels"
-       :title="channel.name"
-       :key="channel.id">
+      <van-tab v-for="channel in channels" :title="channel.name" :key="channel.id">
         <!-- 文章列表，不同的标签页下有不同的列表 -->
         <van-list
-          v-model="loading"
-          :finished="finished"
+          v-model="currentChannel.loading"
+          :finished="currentChannel.finished"
           finished-text="没有更多了"
           @load="onLoad"
-          >
+        >
           <van-cell
-          v-for="article in currentChannel.articles"
-          :key="article.art_id"
-          :title="article.title"
+            v-for="article in currentChannel.articles"
+            :key="article.art_id"
+            :title="article.title"
           />
         </van-list>
       </van-tab>
@@ -61,9 +56,11 @@ export default {
       try {
         const data = await getDefaultOrUserChannels()
         // 给所有的频道设置，时间戳和文章数组
-        data.channels.forEach((channel) => {
+        data.channels.forEach(channel => {
           channel.timestamp = null
           channel.articles = []
+          channel.loading = false
+          channel.finished = false
         })
         this.channels = data.channels
       } catch (err) {
@@ -81,7 +78,14 @@ export default {
       // 记录文章列表，记录最后一条数据的时间戳
       this.currentChannel.timestamp = data.pre_timestamp
       this.currentChannel.articles.push(...data.results)
-      this.loading = false
+      // this.loading = false
+      this.currentChannel.loading = false
+      // 文章加载完毕
+      // 如果某一个频道加载完毕，其它频道中的finished 也是加载完毕
+      if (data.results.length === 0) {
+        // this.finished=true
+        this.currentChannel.finished = true
+      }
     }
   }
 }
@@ -94,16 +98,16 @@ export default {
 //    margin-top:46px;
 //    margin-bottom:50px;
 //  }
-.van-tabs{
-/deep/ .van-tabs__wrap{
-  position:fixed;
-  top:46px;
-  left:0;
-  z-index:100;
-}
-/deep/ .van-tabs__content{
-  margin-top:90px;
-  margin-bottom:50px;
-}
+.van-tabs {
+  /deep/ .van-tabs__wrap {
+    position: fixed;
+    top: 46px;
+    left: 0;
+    z-index: 100;
+  }
+  /deep/ .van-tabs__content {
+    margin-top: 90px;
+    margin-bottom: 50px;
+  }
 }
 </style>
