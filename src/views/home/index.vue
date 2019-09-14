@@ -11,6 +11,8 @@
        v-for="channel in channels"
        :title="channel.name"
        :key="channel.id">
+        <!-- 下拉加载更多组件 -->
+        <van-pull-refresh v-model="currentChannel.pullLoading" @refresh="onRefresh">
         <!-- 文章列表，不同的标签页下有不同的列表 -->
         <van-list
           v-model="currentChannel.loading"
@@ -24,6 +26,7 @@
             :title="article.title"
           />
         </van-list>
+        </van-pull-refresh>
       </van-tab>
     </van-tabs>
   </div>
@@ -67,6 +70,8 @@ export default {
           channel.articles = []
           channel.loading = false
           channel.finished = false
+          // 下拉加载
+          channel.pullLoading = false
         })
         this.channels = data.channels
       } catch (err) {
@@ -92,6 +97,13 @@ export default {
         // this.finished=true
         this.currentChannel.finished = true
       }
+    },
+    // 下拉加载更多
+    onRefresh () {
+      setTimeout(() => {
+        this.$toast('刷新成功')
+        this.currentChannel.pullLoading = false
+      }, 500)
     }
   }
 }
