@@ -1,21 +1,26 @@
 <template>
   <div>
     <!-- 导航头 -->
-    <van-nav-bar fixed title="黑马头条" />
+    <van-nav-bar
+     fixed
+     title="黑马头条" />
     <!-- 频道列表 -->
     <van-tabs animated v-model="activeIndex">
       <!-- 遍历标签页，显示频道列表 -->
-      <van-tab v-for="channel in channels" :title="channel.name" :key="channel.id">
+      <van-tab
+       v-for="channel in channels"
+       :title="channel.name"
+       :key="channel.id">
         <!-- 文章列表，不同的标签页下有不同的列表 -->
         <van-list
           v-model="currentChannel.loading"
           :finished="currentChannel.finished"
           finished-text="没有更多了"
           @load="onLoad"
-        >
+          >
           <van-cell
             v-for="article in currentChannel.articles"
-            :key="article.art_id"
+            :key="article.art_id.toString()"
             :title="article.title"
           />
         </van-list>
@@ -55,8 +60,9 @@ export default {
     async loadChannels () {
       try {
         const data = await getDefaultOrUserChannels()
+        // console.log(data)
         // 给所有的频道设置，时间戳和文章数组
-        data.channels.forEach(channel => {
+        data.channels.forEach((channel) => {
           channel.timestamp = null
           channel.articles = []
           channel.loading = false
@@ -98,16 +104,16 @@ export default {
 //    margin-top:46px;
 //    margin-bottom:50px;
 //  }
-.van-tabs {
-  /deep/ .van-tabs__wrap {
-    position: fixed;
-    top: 46px;
-    left: 0;
-    z-index: 100;
-  }
-  /deep/ .van-tabs__content {
-    margin-top: 90px;
-    margin-bottom: 50px;
-  }
+.van-tabs{
+/deep/ .van-tabs__wrap{
+  position:fixed;
+  top:46px;
+  left:0;
+  z-index:100;
+}
+/deep/ .van-tabs__content{
+  margin-top:90px;
+  margin-bottom:50px;
+}
 }
 </style>
