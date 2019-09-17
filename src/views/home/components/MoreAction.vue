@@ -27,12 +27,21 @@ export default {
     value: {
       type: Boolean,
       required: true
+    },
+    // 接收父组件传递的文章对象
+    article: {
+      type: Object,
+      required: true
     }
   },
   data () {
     return {
       showReports: true
     }
+  },
+  created () {
+    // 测试
+    console.log(this.article.art_id)
   }
 }
 

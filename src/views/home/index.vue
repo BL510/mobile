@@ -49,7 +49,8 @@
               <span>{{ article.comm_count }}评论</span>&nbsp;
               <span>{{ article.pubdate | fmtDate}}</span>&nbsp;
 
-              <van-icon name="cross" class="close" @click="showMoreAction=true"/>
+              <!-- 点击x按钮，记录当前的文章对象 -->
+              <van-icon name="cross" class="close" @click="handleAction(article)"/>
             </p>
           </div>
           </van-cell>
@@ -61,7 +62,8 @@
     <!-- v-model等价于
     v-bind:value="showMoreAction"
     v-on:input="showMoreAction=$event" -->
-    <more-action v-model="showMoreAction"></more-action>
+    <!-- 如果article的值为null，不显示more-action -->
+    <more-action v-if="currentArticle" :article="currentArticle" v-model="showMoreAction"></more-action>
   </div>
 </template>
 
@@ -92,7 +94,9 @@ export default {
       activeIndex: 0,
       // 下拉更新完毕之后显示，成功的提示
       successText: '',
-      showMoreAction: false
+      showMoreAction: false,
+      // 点击x的时候，记录当前的文章对象
+      currentArticle: null
     }
   },
   created () {
@@ -160,6 +164,11 @@ export default {
       } catch (err) {
         console.log(err)
       }
+    },
+    // 点击x按钮，弹出MoreAction，并且记录对应的文章对象
+    handleAction (article) {
+      this.showMoreAction = true
+      this.currentArticle = article
     }
   }
 }
