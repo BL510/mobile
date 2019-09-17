@@ -64,8 +64,7 @@ export default {
           required: '请输入验证码',
           digits: '验证码必须是6位的数字'
         }
-      },
-      loading: true
+      }
     }
     this.$validator.localize('custom', dict)
   },

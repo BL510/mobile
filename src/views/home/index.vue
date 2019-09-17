@@ -8,6 +8,7 @@
     <van-tabs animated v-model="activeIndex">
       <!-- 遍历标签页，显示频道列表 -->
       <van-tab
+       type="line"
        v-for="channel in channels"
        :title="channel.name"
        :key="channel.id">
@@ -59,6 +60,7 @@
       </van-tab>
     </van-tabs>
     <!-- 弹出层组件 -->
+
     <!-- v-model等价于
     v-bind:value="showMoreAction"
     v-on:input="showMoreAction=$event" -->
@@ -133,6 +135,7 @@ export default {
         console.log(err)
       }
     },
+
     // list组件的load
     async onLoad () {
       // 发送请求
@@ -153,6 +156,7 @@ export default {
         this.currentChannel.finished = true
       }
     },
+
     // 下拉加载更多
     async onRefresh () {
       try {
@@ -203,6 +207,7 @@ export default {
 /deep/ .van-tabs__wrap{
   position:fixed;
   top:46px;
+  right:10px;
   left:0;
   z-index:100;
 }
