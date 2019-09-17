@@ -5,7 +5,7 @@
     :showConfirmButton="false"
     closeOnClickOverlay
   >
-  <van-cell-group v-show="showReports">
+  <van-cell-group v-show="!showReports">
     <van-cell title="不感兴趣" icon="orders-o" @click="handle('dislike')" />
     <van-cell title="反馈垃圾内容" icon="warning-o" is-link @click="showReports=true"/>
     <van-cell title="拉黑作者" icon="delete" @click="handle('blacklist')"/>
@@ -37,7 +37,7 @@ export default {
   },
   data () {
     return {
-      showReports: true
+      showReports: false
     }
   },
   methods: {
@@ -57,6 +57,9 @@ export default {
       try {
         await dislikeArticle(this.article.art_id)
         this.$toast.success('操作成功')
+        // 隐藏，移除掉数据
+        // 告知父组件，操作成功
+        this.$emit('handleSuccess')
       } catch (err) {
         this.$toast.fail('操作失败')
       }
