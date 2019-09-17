@@ -23,3 +23,13 @@ export const dislikeArticle = (id) => {
     target: id
   })
 }
+// 举报文章
+export const reportArticle = ({
+  target,
+  type
+}) => {
+  return request.post('/app/v1_0/article/reports', {
+    target,
+    type
+  })
+}
