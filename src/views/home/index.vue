@@ -6,6 +6,8 @@
      title="黑马头条" />
     <!-- 频道列表 -->
     <van-tabs animated v-model="activeIndex">
+      <!-- 小按钮，点击弹出频道管理的弹出层 -->
+      <van-icon slot="nav-right" name="wap-nav" class="nav-btn" @click="showChannelEdit=true" />
       <!-- 遍历标签页，显示频道列表 -->
       <van-tab
        type="line"
@@ -54,7 +56,7 @@
               <van-icon name="cross" class="close" @click="handleAction(article)"/>
             </p>
           </div>
-          </van-cell>
+         </van-cell>
         </van-list>
         </van-pull-refresh>
       </van-tab>
@@ -72,7 +74,7 @@
       v-model="showMoreAction"></more-action>
 
     <!-- 弹出频道管理 -->
-    <channel-edit></channel-edit>
+    <channel-edit v-model="showChannelEdit"></channel-edit>
   </div>
 </template>
 
@@ -110,7 +112,9 @@ export default {
       successText: '',
       showMoreAction: false,
       // 点击x的时候，记录当前的文章对象
-      currentArticle: null
+      currentArticle: null,
+      // 控制频道管理的弹出层显示隐藏
+      showChannelEdit: false
     }
   },
   created () {
@@ -241,5 +245,13 @@ export default {
 }
 .close{
   float:right;
+}
+.nav-btn{
+  position:fixed;
+  right:10px;
+  line-height:44px;
+  background-color:#fff;
+  opacity:0.8;
+  font-size:22px;
 }
 </style>
